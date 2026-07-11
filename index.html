@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Scientific Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="calculator">
+
+<div class="top-bar">
+
+<h2>Calculator</h2>
+
+<button id="themeBtn">
+<i class="fa-solid fa-moon"></i>
+</button>
+
+</div>
+
+<div class="history">
+
+<div id="historyText"></div>
+
+</div>
+
+<div class="display">
+
+<input
+type="text"
+id="display"
+readonly
+placeholder="0">
+
+</div>
+
+<div class="buttons">
+
+<button class="function">AC</button>
+<button class="function">DEL</button>
+<button class="function">%</button>
+<button class="operator">÷</button>
+
+<button class="number">7</button>
+<button class="number">8</button>
+<button class="number">9</button>
+<button class="operator">×</button>
+
+<button class="number">4</button>
+<button class="number">5</button>
+<button class="number">6</button>
+<button class="operator">-</button>
+
+<button class="number">1</button>
+<button class="number">2</button>
+<button class="number">3</button>
+<button class="operator">+</button>
+
+<button class="number">0</button>
+<button class="number">.</button>
+<button class="function">±</button>
+<button class="equal">=</button>
+
+<button class="scientific">√</button>
+<button class="scientific">x²</button>
+<button class="scientific">1/x</button>
+<button class="scientific">π</button>
+
+<button class="scientific">sin</button>
+<button class="scientific">cos</button>
+<button class="scientific">tan</button>
+<button class="scientific">log</button>
+
+<button class="scientific">ln</button>
+<button class="scientific">e</button>
+<button class="scientific">xʸ</button>
+<button class="scientific">( )</button>
+
+</div>
+
+<div class="bottom">
+
+<button id="copyBtn">
+<i class="fa-solid fa-copy"></i>
+Copy
+</button>
+
+<button id="clearHistory">
+<i class="fa-solid fa-trash"></i>
+History
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
