@@ -1,120 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Scientific Calculator</title>
-
     <link rel="stylesheet" href="style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
 </head>
-
 <body>
 
-<div class="container">
+    <div class="container">
+        <div class="calculator">
+            <div class="theme-toggle">
+                <button id="themeBtn">🌓</button>
+            </div>
+            
+            <div class="display">
+                <div id="history" class="history-text"></div>
+                <div id="result" class="result-text">0</div>
+            </div>
 
-<div class="calculator">
+            <div class="buttons">
+                <!-- Row 1: Scientific -->
+                <button class="btn-sci" onclick="appendOperator('(')">(</button>
+                <button class="btn-sci" onclick="appendOperator(')')">)</button>
+                <button class="btn-sci" onclick="calculateScientific('sin')">sin</button>
+                <button class="btn-sci" onclick="calculateScientific('cos')">cos</button>
+                <button class="btn-sci" onclick="calculateScientific('tan')">tan</button>
+                
+                <!-- Row 2: Scientific -->
+                <button class="btn-sci" onclick="insertConstant('PI')">π</button>
+                <button class="btn-sci" onclick="insertConstant('E')">e</button>
+                <button class="btn-sci" onclick="calculateScientific('log')">log</button>
+                <button class="btn-sci" onclick="calculateScientific('ln')">ln</button>
+                <button class="btn-sci" onclick="appendOperator('**')">xʸ</button>
 
-<div class="top-bar">
+                <!-- Row 3: Basic -->
+                <button class="btn-action" onclick="clearDisplay()">AC</button>
+                <button class="btn-action" onclick="deleteLast()">DEL</button>
+                <button class="btn-sci" onclick="calculateScientific('sqrt')">√</button>
+                <button class="btn-sci" onclick="appendOperator('**2')">x²</button>
+                <button class="btn-op" onclick="appendOperator('/')">/</button>
 
-<h2>Calculator</h2>
+                <!-- Row 4: Digits -->
+                <button class="btn" onclick="appendNumber('7')">7</button>
+                <button class="btn" onclick="appendNumber('8')">8</button>
+                <button class="btn" onclick="appendNumber('9')">9</button>
+                <button class="btn-op" onclick="appendOperator('*')">×</button>
+                <button class="btn-action" onclick="copyResult()">📋</button>
 
-<button id="themeBtn">
-<i class="fa-solid fa-moon"></i>
-</button>
+                <!-- Row 5: Digits -->
+                <button class="btn" onclick="appendNumber('4')">4</button>
+                <button class="btn" onclick="appendNumber('5')">5</button>
+                <button class="btn" onclick="appendNumber('6')">6</button>
+                <button class="btn-op" onclick="appendOperator('-')">-</button>
+                <button class="btn-sci" onclick="appendOperator('%')">%</button>
 
-</div>
+                <!-- Row 6: Digits -->
+                <button class="btn" onclick="appendNumber('1')">1</button>
+                <button class="btn" onclick="appendNumber('2')">2</button>
+                <button class="btn" onclick="appendNumber('3')">3</button>
+                <button class="btn-op" onclick="appendOperator('+')">+</button>
+                <button class="btn-eq" onclick="calculateResult()">=</button>
 
-<div class="history">
+                <!-- Row 7: Bottom -->
+                <button class="btn" onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+                <button class="btn" onclick="appendNumber('.')">.</button>
+                <button class="btn-sci" onclick="toggleSign()">+/-</button>
+            </div>
+        </div>
 
-<div id="historyText"></div>
+        <div class="history-panel">
+            <h3>History</h3>
+            <div id="historyList"></div>
+            <button class="clear-history" onclick="clearHistory()">Clear History</button>
+        </div>
+    </div>
 
-</div>
-
-<div class="display">
-
-<input
-type="text"
-id="display"
-readonly
-placeholder="0">
-
-</div>
-
-<div class="buttons">
-
-<button class="function">AC</button>
-<button class="function">DEL</button>
-<button class="function">%</button>
-<button class="operator">÷</button>
-
-<button class="number">7</button>
-<button class="number">8</button>
-<button class="number">9</button>
-<button class="operator">×</button>
-
-<button class="number">4</button>
-<button class="number">5</button>
-<button class="number">6</button>
-<button class="operator">-</button>
-
-<button class="number">1</button>
-<button class="number">2</button>
-<button class="number">3</button>
-<button class="operator">+</button>
-
-<button class="number">0</button>
-<button class="number">.</button>
-<button class="function">±</button>
-<button class="equal">=</button>
-
-<button class="scientific">√</button>
-<button class="scientific">x²</button>
-<button class="scientific">1/x</button>
-<button class="scientific">π</button>
-
-<button class="scientific">sin</button>
-<button class="scientific">cos</button>
-<button class="scientific">tan</button>
-<button class="scientific">log</button>
-
-<button class="scientific">ln</button>
-<button class="scientific">e</button>
-<button class="scientific">xʸ</button>
-<button class="scientific">( )</button>
-
-</div>
-
-<div class="bottom">
-
-<button id="copyBtn">
-<i class="fa-solid fa-copy"></i>
-Copy
-</button>
-
-<button id="clearHistory">
-<i class="fa-solid fa-trash"></i>
-History
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
-
 </html>
