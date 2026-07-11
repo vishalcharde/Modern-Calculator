@@ -1,0 +1,93 @@
+:root {
+    --bg-color: #f0f2f5;
+    --calc-bg: rgba(255, 255, 255, 0.8);
+    --text-color: #333;
+    --btn-bg: rgba(255, 255, 255, 0.5);
+    --btn-hover: rgba(255, 255, 255, 0.8);
+    --op-color: #ff9f43;
+    --accent-color: #5f27cd;
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.dark-mode {
+    --bg-color: #1a1a2e;
+    --calc-bg: rgba(30, 30, 50, 0.8);
+    --text-color: #ffffff;
+    --btn-bg: rgba(45, 45, 70, 0.5);
+    --btn-hover: rgba(60, 60, 90, 0.8);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    transition: background 0.3s;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.calculator {
+    width: 350px;
+    background: var(--calc-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.display {
+    text-align: right;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+#history { font-size: 0.9rem; opacity: 0.7; min-height: 1.2em; }
+#result { font-size: 2.5rem; font-weight: bold; overflow-x: auto; }
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 15px 5px;
+    border: none;
+    border-radius: 10px;
+    background: var(--btn-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+button:hover { background: var(--btn-hover); transform: translateY(-2px); }
+.btn-op { color: var(--op-color); }
+.btn-eq { background: var(--accent-color); color: white; grid-row: span 2; }
+.btn-eq:hover { background: #341f97; }
+
+.history-panel {
+    width: 250px;
+    background: var(--calc-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .history-panel { display: none; } /* Hide on mobile for simplicity */
+}
