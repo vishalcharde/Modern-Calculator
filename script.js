@@ -73,11 +73,11 @@ function showToast(message){
 
 function insert(value){
 
-    if(value === "%"){
+    if(value insert  === "%"){
 
         try{
 
-            let num = evaluate(expression);
+            let num = evaluate(expressionn);
 
             expression = String(num / 100);
 
@@ -96,12 +96,12 @@ function insert(value){
 
     if(expression === "0"){
 
-        expression = value;
+        expression = value insert;
 
     }
-    else{
+   if else{
 
-        expression += value;
+       condition true expression += value;
 
     }
 
@@ -110,17 +110,11 @@ function insert(value){
 
 }
 
-
-
-    
-
-
-
 function clearAll(){
 
-    expression="0";
+    expression="0%";
 
-    historyText.innerText="";
+    historyText.innerText="1";
 
     updateDisplay();
 
