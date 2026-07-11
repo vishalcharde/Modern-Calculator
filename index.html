@@ -1,81 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Scientific Calculator</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NovaCalc - Modern Scientific Calculator</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
-    <div class="container">
-        <div class="calculator">
-            <div class="theme-toggle">
-                <button id="themeBtn">🌓</button>
-            </div>
-            
-            <div class="display">
-                <div id="history" class="history-text"></div>
-                <div id="result" class="result-text">0</div>
-            </div>
+<div class="app">
 
-            <div class="buttons">
-                <!-- Row 1: Scientific -->
-                <button class="btn-sci" onclick="appendOperator('(')">(</button>
-                <button class="btn-sci" onclick="appendOperator(')')">)</button>
-                <button class="btn-sci" onclick="calculateScientific('sin')">sin</button>
-                <button class="btn-sci" onclick="calculateScientific('cos')">cos</button>
-                <button class="btn-sci" onclick="calculateScientific('tan')">tan</button>
+    <!-- Top Header -->
+    <header class="header">
+
+        <div>
+            <h1>NovaCalc</h1>
+            <p>Scientific Calculator</p>
+        </div>
+
+        <button id="themeBtn" class="theme-btn">
+            🌙
+        </button>
+
+    </header>
+
+
+    <!-- Calculator Card -->
+    <main class="calculator">
+
+
+        <!-- Display -->
+        <section class="display">
+
+            <div id="history" class="history">
                 
-                <!-- Row 2: Scientific -->
-                <button class="btn-sci" onclick="insertConstant('PI')">π</button>
-                <button class="btn-sci" onclick="insertConstant('E')">e</button>
-                <button class="btn-sci" onclick="calculateScientific('log')">log</button>
-                <button class="btn-sci" onclick="calculateScientific('ln')">ln</button>
-                <button class="btn-sci" onclick="appendOperator('**')">xʸ</button>
-
-                <!-- Row 3: Basic -->
-                <button class="btn-action" onclick="clearDisplay()">AC</button>
-                <button class="btn-action" onclick="deleteLast()">DEL</button>
-                <button class="btn-sci" onclick="calculateScientific('sqrt')">√</button>
-                <button class="btn-sci" onclick="appendOperator('**2')">x²</button>
-                <button class="btn-op" onclick="appendOperator('/')">/</button>
-
-                <!-- Row 4: Digits -->
-                <button class="btn" onclick="appendNumber('7')">7</button>
-                <button class="btn" onclick="appendNumber('8')">8</button>
-                <button class="btn" onclick="appendNumber('9')">9</button>
-                <button class="btn-op" onclick="appendOperator('*')">×</button>
-                <button class="btn-action" onclick="copyResult()">📋</button>
-
-                <!-- Row 5: Digits -->
-                <button class="btn" onclick="appendNumber('4')">4</button>
-                <button class="btn" onclick="appendNumber('5')">5</button>
-                <button class="btn" onclick="appendNumber('6')">6</button>
-                <button class="btn-op" onclick="appendOperator('-')">-</button>
-                <button class="btn-sci" onclick="appendOperator('%')">%</button>
-
-                <!-- Row 6: Digits -->
-                <button class="btn" onclick="appendNumber('1')">1</button>
-                <button class="btn" onclick="appendNumber('2')">2</button>
-                <button class="btn" onclick="appendNumber('3')">3</button>
-                <button class="btn-op" onclick="appendOperator('+')">+</button>
-                <button class="btn-eq" onclick="calculateResult()">=</button>
-
-                <!-- Row 7: Bottom -->
-                <button class="btn" onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
-                <button class="btn" onclick="appendNumber('.')">.</button>
-                <button class="btn-sci" onclick="toggleSign()">+/-</button>
             </div>
+
+            <div id="result" class="result">
+                0
+            </div>
+
+
+            <div class="mode">
+
+                <button id="degreeBtn">
+                    DEG
+                </button>
+
+                <button id="radianBtn">
+                    RAD
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- Memory Buttons -->
+
+        <div class="memory-row">
+
+            <button onclick="memoryClear()">MC</button>
+            <button onclick="memoryRecall()">MR</button>
+            <button onclick="memoryAdd()">M+</button>
+            <button onclick="memorySubtract()">M-</button>
+
         </div>
 
-        <div class="history-panel">
-            <h3>History</h3>
-            <div id="historyList"></div>
-            <button class="clear-history" onclick="clearHistory()">Clear History</button>
-        </div>
-    </div>
 
-    <script src="script.js"></script>
+
+        <!-- Buttons -->
+
+        <section class="buttons">
+
+
+            <!-- Scientific -->
+
+            <button class="scientific" onclick="insert('(')">
+                (
+            </button>
+
+            <button class="scientific" onclick="insert(')')">
+                )
+            </button>
+
+
+            <button class="scientific" onclick="scientific('sin')">
+                sin
+            </button>
+
+            <button class="scientific" onclick="scientific('cos')">
+                cos
+            </button>
+
+            <button class="scientific" onclick="scientific('tan')">
+                tan
+            </button>
+
+
+
+            <button class="scientific" onclick="insertConstant('PI')">
+                π
+            </button>
+
+            <button class="scientific" onclick="insertConstant('E')">
+                e
+            </button>
+
+
+            <button class="scientific" onclick="scientific('log')">
+                log
+            </button>
+
+
+            <button class="scientific" onclick="scientific('ln')">
+                ln
+            </button>
+
+
+            <button class="scientific" onclick="insert('^')">
+                xʸ
+            </button>
+
+
+
+            <!-- Actions -->
+
+
+            <button class="action" onclick="clearAll()">
+                AC
+            </button>
+
+
+            <button class="action" onclick="deleteLast()">
+                DEL
+            </button>
+
+
+            <button class="scientific" onclick="scientific('sqrt')">
+                √
+            </button>
+
+
+            <button class="scientific" onclick="scientific('square')">
+                x²
+            </button>
+
+
+            <button class="operator" onclick="insert('/')">
+                ÷
+            </button>
+
+
+
+
+            <!-- Numbers -->
+
+
+            <button onclick="insert('7')">
+                7
+            </button>
+
+            <button onclick="insert('8')">
+                8
+            </button>
+
+            <button onclick="insert('9')">
+                9
+            </button>
+
+
+            <button class="operator" onclick="insert('*')">
+                ×
+            </button>
+
+
+            <button onclick="copyResult()">
+                📋
+            </button>
+
+
+
+            <button onclick="insert('4')">
+                4
+            </button>
+
+            <button onclick="insert('5')">
+                5
+            </button>
+
+            <button onclick="insert('6')">
+                6
+            </button>
+
+
+            <button class="operator" onclick="insert('-')">
+                -
+            </button>
+
+
+            <button class="scientific" onclick="insert('%')">
+                %
+            </button>
+
+
+
+
+            <button onclick="insert('1')">
+                1
+            </button>
+
+
+            <button onclick="insert('2')">
+                2
+            </button>
+
+
+            <button onclick="insert('3')">
+                3
+            </button>
+
+
+            <button class="operator" onclick="insert('+')">
+                +
+            </button>
+
+
+            <button class="equal" onclick="calculate()">
+                =
+            </button>
+
+
+
+            <button class="zero" onclick="insert('0')">
+                0
+            </button>
+
+
+            <button onclick="insert('.')">
+                .
+            </button>
+
+
+            <button onclick="changeSign()">
+                +/-
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+
+
+    <!-- History -->
+
+    <aside class="history-box">
+
+
+        <h2>
+            Calculation History
+        </h2>
+
+
+        <div id="historyList">
+
+        </div>
+
+
+        <button class="clear-history" onclick="clearHistory()">
+            Clear History
+        </button>
+
+
+    </aside>
+
+
+
+</div>
+
+
+
+<!-- Toast -->
+
+<div id="toast">
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+
 </body>
 </html>
