@@ -1,105 +1,845 @@
-let currentInput = '0';
-let history = [];
+// ================================
+// NOVACALC SCIENTIFIC CALCULATOR
+// ================================
 
-const resultElement = document.getElementById('result');
-const historyElement = document.getElementById('history');
-const historyList = document.getElementById('historyList');
 
-function updateDisplay() {
-    resultElement.innerText = currentInput;
+let expression = "0";
+
+let historyData =
+JSON.parse(localStorage.getItem("calcHistory")) || [];
+
+
+let memory = 0;
+
+
+let angleMode =
+localStorage.getItem("angleMode") || "DEG";
+
+
+
+const result =
+document.getElementById("result");
+
+
+const historyText =
+document.getElementById("history");
+
+
+const historyList =
+document.getElementById("historyList");
+
+
+const toast =
+document.getElementById("toast");
+
+
+
+
+
+// ================================
+// DISPLAY
+// ================================
+
+
+function updateDisplay(){
+
+    result.innerText = expression;
+
 }
 
-function appendNumber(num) {
-    if (currentInput === '0') currentInput = num;
-    else currentInput += num;
-    updateDisplay();
+
+
+function showToast(message){
+
+    toast.innerText = message;
+
+    toast.classList.add("show");
+
+
+    setTimeout(()=>{
+
+        toast.classList.remove("show");
+
+    },1500);
+
 }
 
-function appendOperator(op) {
-    currentInput += op;
-    updateDisplay();
-}
 
-function clearDisplay() {
-    currentInput = '0';
-    updateDisplay();
-}
 
-function deleteLast() {
-    currentInput = currentInput.slice(0, -1) || '0';
-    updateDisplay();
-}
 
-function insertConstant(type) {
-    const val = type === 'PI' ? Math.PI : Math.E;
-    currentInput = currentInput === '0' ? String(val) : currentInput + val;
-    updateDisplay();
-}
+// ================================
+// INPUT
+// ================================
 
-function calculateScientific(func) {
-    try {
-        let val = eval(currentInput.replace('**2', '**2'));
-        let res;
-        switch(func) {
-            case 'sin': res = Math.sin(val); break;
-            case 'cos': res = Math.cos(val); break;
-            case 'tan': res = Math.tan(val); break;
-            case 'log': res = Math.log10(val); break;
-            case 'ln': res = Math.log(val); break;
-            case 'sqrt': res = Math.sqrt(val); break;
-        }
-        recordHistory(currentInput, res);
-        currentInput = String(res);
-        updateDisplay();
-    } catch {
-        currentInput = 'Error';
-        updateDisplay();
-        setTimeout(clearDisplay, 1500);
+
+function insert(value){
+
+
+    if(expression==="0"){
+
+        expression=value;
+
     }
-}
 
-function calculateResult() {
-    try {
-        const res = eval(currentInput);
-        recordHistory(currentInput, res);
-        currentInput = String(res);
-        updateDisplay();
-    } catch {
-        currentInput = 'Error';
-        updateDisplay();
+    else{
+
+        expression+=value;
+
     }
-}
 
-function recordHistory(expr, res) {
-    history.push(`${expr} = ${res}`);
-    const div = document.createElement('div');
-    div.innerText = `${expr} = ${res}`;
-    historyList.prepend(div);
-}
 
-function toggleSign() {
-    currentInput = String(parseFloat(currentInput) * -1);
     updateDisplay();
+
 }
 
-function copyResult() {
-    navigator.clipboard.writeText(currentInput);
-    alert('Copied to clipboard!');
+
+
+
+function clearAll(){
+
+    expression="0";
+
+    historyText.innerText="";
+
+    updateDisplay();
+
 }
 
-function clearHistory() {
-    history = [];
-    historyList.innerHTML = '';
+
+
+
+function deleteLast(){
+
+
+    expression =
+    expression.slice(0,-1);
+
+
+    if(expression===""){
+
+        expression="0";
+
+    }
+
+
+    updateDisplay();
+
+
 }
 
-document.getElementById('themeBtn').onclick = () => {
-    document.body.classList.toggle('dark-mode');
+
+
+
+
+
+
+// ================================
+// CONSTANTS
+// ================================
+
+
+function insertConstant(type){
+
+
+    if(type==="PI"){
+
+        insert(Math.PI.toString());
+
+    }
+
+
+    if(type==="E"){
+
+        insert(Math.E.toString());
+
+    }
+
+
+}
+
+
+
+
+
+
+
+// ================================
+// SCIENTIFIC
+// ================================
+
+
+function scientific(type){
+
+
+try{
+
+
+let value =
+evaluate(expression);
+
+
+
+let answer;
+
+
+
+switch(type){
+
+
+case "sin":
+
+answer =
+Math.sin(convertAngle(value));
+
+break;
+
+
+
+case "cos":
+
+answer =
+Math.cos(convertAngle(value));
+
+break;
+
+
+
+case "tan":
+
+answer =
+Math.tan(convertAngle(value));
+
+break;
+
+
+
+case "log":
+
+answer =
+Math.log10(value);
+
+break;
+
+
+
+case "ln":
+
+answer =
+Math.log(value);
+
+break;
+
+
+
+case "sqrt":
+
+answer =
+Math.sqrt(value);
+
+break;
+
+
+
+case "square":
+
+answer =
+value * value;
+
+break;
+
+
+
+}
+
+
+
+saveHistory(expression,answer);
+
+
+
+expression =
+format(answer);
+
+
+updateDisplay();
+
+
+
+}
+
+catch{
+
+error();
+
+}
+
+
+}
+
+
+
+
+
+
+// ================================
+// CALCULATE
+// ================================
+
+
+
+function calculate(){
+
+
+try{
+
+
+let answer =
+evaluate(expression);
+
+
+
+saveHistory(expression,answer);
+
+
+
+expression =
+format(answer);
+
+
+
+updateDisplay();
+
+
+
+}
+
+
+catch{
+
+error();
+
+}
+
+
+
+}
+
+
+
+
+
+
+// ================================
+// SAFE EVALUATION
+// ================================
+
+
+function evaluate(exp){
+
+
+exp =
+exp.replaceAll("^","**");
+
+
+
+if(
+exp.includes("++") ||
+exp.includes("--") ||
+exp.includes("..")
+){
+
+throw "Invalid";
+
+}
+
+
+
+return Function(
+'"use strict";return ('+
+exp+
+')'
+)();
+
+
+
+}
+
+
+
+
+
+// ================================
+// DEG / RAD
+// ================================
+
+
+function convertAngle(value){
+
+
+if(angleMode==="DEG"){
+
+return value*Math.PI/180;
+
+}
+
+
+return value;
+
+
+}
+
+
+
+
+
+document
+.getElementById("degreeBtn")
+.onclick=()=>{
+
+
+angleMode="DEG";
+
+
+localStorage.setItem(
+"angleMode",
+"DEG"
+);
+
+
+showToast("Degree Mode");
+
+
 };
 
-// Keyboard support
-window.addEventListener('keydown', (e) => {
-    if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
-    if (e.key === 'Enter') calculateResult();
-    if (e.key === 'Backspace') deleteLast();
-    if (['+', '-', '*', '/'].includes(e.key)) appendOperator(e.key);
+
+
+
+
+document
+.getElementById("radianBtn")
+.onclick=()=>{
+
+
+angleMode="RAD";
+
+
+localStorage.setItem(
+"angleMode",
+"RAD"
+);
+
+
+showToast("Radian Mode");
+
+
+};
+
+
+
+
+
+
+
+// ================================
+// SIGN CHANGE
+// ================================
+
+
+function changeSign(){
+
+
+try{
+
+
+expression =
+String(
+evaluate(expression)*-1
+);
+
+
+updateDisplay();
+
+
+}
+
+catch{
+
+error();
+
+}
+
+
+
+}
+
+
+
+
+
+// ================================
+// MEMORY
+// ================================
+
+
+function memoryClear(){
+
+memory=0;
+
+showToast("Memory Cleared");
+
+}
+
+
+
+
+function memoryRecall(){
+
+insert(memory.toString());
+
+}
+
+
+
+
+function memoryAdd(){
+
+memory += evaluate(expression);
+
+showToast("Added");
+
+}
+
+
+
+
+function memorySubtract(){
+
+memory -= evaluate(expression);
+
+showToast("Removed");
+
+}
+
+
+
+
+
+
+
+// ================================
+// HISTORY
+// ================================
+
+
+function saveHistory(exp,result){
+
+
+historyData.unshift({
+
+exp,
+
+result,
+
+time:new Date()
+.toLocaleTimeString()
+
 });
+
+
+if(historyData.length>30){
+
+historyData.pop();
+
+}
+
+
+
+localStorage.setItem(
+"calcHistory",
+JSON.stringify(historyData)
+);
+
+
+
+renderHistory();
+
+
+}
+
+
+
+
+function renderHistory(){
+
+
+historyList.innerHTML="";
+
+
+historyData.forEach(item=>{
+
+
+let div =
+document.createElement("div");
+
+
+div.innerHTML =
+`
+${item.exp}
+<br>
+=
+<b>${item.result}</b>
+`;
+
+
+
+historyList.appendChild(div);
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+function clearHistory(){
+
+
+historyData=[];
+
+
+localStorage.removeItem(
+"calcHistory"
+);
+
+
+
+renderHistory();
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// COPY
+// ================================
+
+
+function copyResult(){
+
+
+navigator.clipboard.writeText(
+expression
+);
+
+
+showToast("Copied");
+
+
+}
+
+
+
+
+
+
+
+// ================================
+// ERROR
+// ================================
+
+
+function error(){
+
+
+expression="Error";
+
+
+updateDisplay();
+
+
+
+setTimeout(()=>{
+
+expression="0";
+
+updateDisplay();
+
+
+},1200);
+
+
+}
+
+
+
+
+
+
+// ================================
+// FORMAT NUMBER
+// ================================
+
+
+function format(num){
+
+
+if(
+Number.isInteger(num)
+){
+
+return num.toString();
+
+}
+
+
+
+return Number(
+num.toFixed(10)
+).toString();
+
+
+}
+
+
+
+
+
+
+
+// ================================
+// THEME
+// ================================
+
+
+const themeBtn =
+document.getElementById("themeBtn");
+
+
+
+if(
+localStorage.getItem("theme")
+==="dark"
+){
+
+document.body.classList.add("dark");
+
+}
+
+
+
+
+themeBtn.onclick=()=>{
+
+
+document.body.classList.toggle("dark");
+
+
+
+let mode =
+document.body.classList.contains("dark")
+?
+"dark"
+:
+"light";
+
+
+
+localStorage.setItem(
+"theme",
+mode
+);
+
+
+
+};
+
+
+
+
+
+
+
+// ================================
+// KEYBOARD
+// ================================
+
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+
+let key=e.key;
+
+
+
+if(
+key>="0" &&
+key<="9"
+){
+
+insert(key);
+
+}
+
+
+
+else if(
+["+","-","*","/","."].includes(key)
+){
+
+insert(key);
+
+}
+
+
+
+else if(key==="Enter"){
+
+calculate();
+
+}
+
+
+
+else if(key==="Backspace"){
+
+deleteLast();
+
+}
+
+
+
+else if(key==="Escape"){
+
+clearAll();
+
+}
+
+
+
+}
+);
+
+
+
+
+
+
+
+// INITIAL LOAD
+
+renderHistory();
+
+updateDisplay();
