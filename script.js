@@ -71,19 +71,37 @@ function showToast(message){
 // INPUT
 // ================================
 
-
 function insert(value){
 
+    if(value === "%"){
 
-    if(expression==="0"){
+        try{
 
-        expression=value;
+            let num = evaluate(expression);
 
+            expression = String(num / 100);
+
+        }
+        catch{
+
+            error();
+            return;
+
+        }
+
+        updateDisplay();
+        return;
     }
 
+
+    if(expression === "0"){
+
+        expression = value;
+
+    }
     else{
 
-        expression+=value;
+        expression += value;
 
     }
 
@@ -92,6 +110,9 @@ function insert(value){
 
 }
 
+
+
+    
 
 
 
